@@ -1814,18 +1814,109 @@ img{
     linear-gradient(135deg,#4b1b7b,#dc5023);
 }
 
-/* TESTIMONIALS */
-.testimonial-track{
-  display:flex;
-  gap:16px;
+  /* =========================
+   PREMIUM TESTIMONIAL SLIDER
+========================= */
+
+.testimonials{
   overflow:hidden;
 }
 
+.testimonial-track{
+  display:flex;
+  align-items:stretch;
+  gap:16px;
+  width:max-content;
+  will-change:transform;
+  cursor:grab;
+  user-select:none;
+  touch-action:pan-y;
+}
+
+.testimonial-track:active{
+  cursor:grabbing;
+}
+
 .testimonial{
+  flex:0 0 365px;
   min-width:365px;
   padding:30px;
   border-radius:27px;
+  scroll-snap-align:start;
+  transition:
+    transform .35s ease,
+    border-color .35s ease,
+    box-shadow .35s ease;
 }
+
+.testimonial:hover{
+  transform:translateY(-8px);
+  border-color:rgba(0,212,255,.35);
+  box-shadow:
+      0 24px 60px rgba(0,0,0,.35),
+      0 0 35px rgba(0,212,255,.12);
+}
+
+.testimonial-slider-mask{
+  position:relative;
+  width:100%;
+  overflow:hidden;
+  padding:18px 0 30px;
+}
+
+/* soft fade on both sides */
+.testimonial-slider-mask::before,
+.testimonial-slider-mask::after{
+  content:"";
+  position:absolute;
+  top:0;
+  bottom:0;
+  width:110px;
+  z-index:5;
+  pointer-events:none;
+}
+
+.testimonial-slider-mask::before{
+  left:0;
+  background:linear-gradient(
+    to right,
+    var(--bg, #030303),
+    transparent
+  );
+}
+
+.testimonial-slider-mask::after{
+  right:0;
+  background:linear-gradient(
+    to left,
+    var(--bg, #030303),
+    transparent
+  );
+}
+
+@media (max-width:768px){
+
+  .testimonial-slider-mask{
+    padding:12px 0 24px;
+  }
+
+  .testimonial{
+    flex:0 0 84vw;
+    min-width:84vw;
+    padding:22px;
+    border-radius:22px;
+  }
+
+  .testimonial-track{
+    gap:14px;
+  }
+
+  .testimonial-slider-mask::before,
+  .testimonial-slider-mask::after{
+    width:35px;
+  }
+}
+
 
 .stars{
   color:#ffd85a;
@@ -2450,5 +2541,19 @@ img{
 
   .footer__links{
     grid-template-columns:1fr;
+  }
+}
+
+@media (max-width:768px){
+
+  .testimonial-track{
+    overflow-x:auto;
+    overflow-y:hidden;
+    padding-bottom:10px;
+  }
+
+  .testimonial{
+    flex:0 0 85%;
+    min-width:85%;
   }
 }
