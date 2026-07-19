@@ -951,3 +951,114 @@
     );
   }
 })();
+
+/* =====================================
+   PREMIUM INFINITE TESTIMONIAL SLIDER
+===================================== */
+
+document.addEventListener("DOMContentLoaded", () => {
+    const track = document.querySelector(".testimonial-track");
+
+    if (!track) return;
+
+    // Duplicate only once
+    if (track.dataset.sliderReady === "true") return;
+    track.dataset.sliderReady = "true";
+
+    const originalCards = Array.from(track.children);
+
+    originalCards.forEach((card) => {
+        const clone = card.cloneNode(true);
+        clone.setAttribute("aria-hidden", "true");
+        track.appendChild(clone);
+    });
+
+    let position = 0;
+    let speed = 0.55;
+    let isPaused = false;
+    let isDragging = false;
+    let startX = 0;
+    let startPosition = 0;
+    let previousTime = performance.now();
+
+    function getLoopWidth() {
+        const gap = parseFloat(getComputedStyle(track).gap) || 0;
+
+        return originalCards.reduce((total, card) => {
+            return total + card.getBoundingClientRect().width + gap;
+        }, 0);
+    }
+
+    function animate(currentTime) {
+        const delta = Math.min(
+            (currentTime - previousTime) / 16.67,
+            2
+        );
+
+        previousTime = currentTime;
+
+        if (!isPaused && !isDragging) {
+            position -= speed * delta;
+        }
+
+        const loopWidth = getLoopWidth();
+
+        if (loopWidth > 0) {
+            while (position <= -loopWidth) {
+                position += loopWidth;
+            }
+
+            while (position > 0) {
+                position -= loopWidth;
+            }
+        }
+
+        track.style.transform =
+            `translate3d(${position}px, 0, 0)`;
+
+        requestAnimationFrame(animate);
+    }
+
+    track.addEventListener("mouseenter", () => {
+        isPaused = true;
+    });
+
+    track.addEventListener("mouseleave", () => {
+        isPaused = false;
+        isDragging = false;
+    });
+
+    track.addEventListener("pointerdown", (event) => {
+        isDragging = true;
+        isPaused = true;
+        startX = event.clientX;
+        startPosition = position;
+
+        track.setPointerCapture?.(event.pointerId);
+    });
+
+    track.addEventListener("pointermove", (event) => {
+        if (!isDragging) return;
+
+        position =
+            startPosition + (event.clientX - startX);
+    });
+
+    function finishDragging(event) {
+        if (!isDragging) return;
+
+        isDragging = false;
+        isPaused = false;
+
+        track.releasePointerCapture?.(event.pointerId);
+    }
+
+    track.addEventListener("pointerup", finishDragging);
+    track.addEventListener("pointercancel", finishDragging);
+
+    document.addEventListener("visibilitychange", () => {
+        isPaused = document.hidden;
+    });
+
+    requestAnimationFrame(animate);
+});
