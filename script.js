@@ -956,7 +956,7 @@
    PREMIUM INFINITE TESTIMONIAL SLIDER
 ===================================== */
 
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("", () => {
     const track = document.querySelector(".testimonial-track");
 
     if (!track) return;
@@ -1061,4 +1061,34 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     requestAnimationFrame(animate);
+});
+
+/* ===================================
+   BEFORE / AFTER COMPARISON SLIDER
+=================================== */
+
+document.addEventListener("DOMContentLoaded", () => {
+    const comparison = document.querySelector(".before-after");
+
+    if (!comparison) return;
+
+    const range = comparison.querySelector(".before-after__range");
+
+    if (!range) return;
+
+    function updateSlider() {
+        comparison.style.setProperty(
+            "--position",
+            `${range.value}%`
+        );
+    }
+
+    range.addEventListener("input", updateSlider);
+
+    range.addEventListener("dblclick", () => {
+        range.value = 50;
+        updateSlider();
+    });
+
+    updateSlider();
 });

@@ -176,11 +176,43 @@
         <article class="action-main glass tilt-card reveal-left">
           <div class="action-main__screen">
             <div class="before-after">
-              <div class="before"><span>RAW</span></div>
-              <div class="after"><span>FINAL</span></div>
-              <div class="divider"></div>
-            </div>
-          </div>
+            <img
+                class="before-after__image before-after__before"
+                src="./images/before.jpg"
+                alt="Before Editing"
+>
+
+       <div class="before-after__after-wrap">
+              <img
+              class="before-after__image before-after__after"
+              src="./images/after.jpg"
+              alt="After Editing"
+    >
+       </div>
+
+       <div class="before-after__label before-after__label--left">
+       BEFORE
+    </div>
+
+       <div class="before-after__label before-after__label--right">
+      AFTER
+    </div>
+
+    <div class="before-after__divider">
+    <div class="before-after__handle">
+        <span>◀</span>
+        <span>▶</span>
+    </div>
+</div>
+
+    <input
+      class="before-after__range"
+      type="range"
+      min="0"
+      max="100"
+      value="50">
+    </div>
+  </div>
           <div class="action-main__meta">
             <span>Color grading before / after</span>
             <strong>Cinematic transformation</strong>
