@@ -802,21 +802,6 @@
       });
     }
 
-    /* Portfolio cards */
-
-    if ($(".portfolio-grid")) {
-      gsap.from(".portfolio-card", {
-        y: 75,
-        opacity: 0,
-        stagger: 0.1,
-        duration: 1,
-        ease: "power3.out",
-        scrollTrigger: {
-          trigger: ".portfolio-grid",
-          start: "top 84%"
-        }
-      });
-    }
 
     /* Stats */
 
